@@ -6,7 +6,11 @@ const handleClick = () => {
 };
 
 const SelectBtn = props => {
-  return <Button onClick={handleClick}>Select</Button>;
+  return (
+    <Button variant="success" onClick={handleClick}>
+      Select
+    </Button>
+  );
 };
 
 export default SelectBtn;
