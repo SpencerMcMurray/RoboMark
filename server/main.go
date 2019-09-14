@@ -9,5 +9,5 @@ func main() {
 	// http.ListenAndServe(":8080", nil)
 
 	analysis.AnalyseImage()
-	analysis.AnalyseText()
+	// analysis.AnalyseText()
 }
