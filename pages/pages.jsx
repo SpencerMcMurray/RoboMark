@@ -1,6 +1,7 @@
 import React from "react";
 import Display from "../components/Display";
 import ScanBtn from "../components/buttons/ScanBtn";
+import PageBtns from "../components/buttons/PageBtns";
 
 const Pages = () => {
   return (
@@ -8,7 +9,7 @@ const Pages = () => {
       title="Pages"
       headers={["Number", "Scan"]}
       items={[{ id: 2, name: 1, scan: <ScanBtn id={2} /> }]}
-      buttons={[]}
+      buttons={PageBtns}
     />
   );
 };

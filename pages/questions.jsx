@@ -1,13 +1,13 @@
 import React from "react";
 import Display from "../components/Display";
-import SelectBtn from "../components/buttons/SelectBtn";
+import QuestionBtn from "../components/buttons/QuestionBtn";
 
 const Questions = () => {
   return (
     <Display
       title="Questions"
       headers={["Number", "Update"]}
-      items={[{ id: 2, num: 1, select: <SelectBtn /> }]}
+      items={[{ id: 2, num: 1, select: <QuestionBtn /> }]}
       buttons={[]}
     />
   );
