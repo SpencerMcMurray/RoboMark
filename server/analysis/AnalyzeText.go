@@ -13,8 +13,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// AnalyseText calls the Azure API to perform text analysis.
-func AnalyseText() {
+// AnalyzeText calls the Azure API to perform text analysis.
+func AnalyzeText() {
 
 	err := godotenv.Load()
 	if err != nil {
