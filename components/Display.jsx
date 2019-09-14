@@ -20,7 +20,7 @@ const DisplayLayout = props => {
             />
           </div>
           <div className="col-lg-3">
-            <ButtonSpread />
+            <ButtonSpread buttons={props.buttons} />
           </div>
         </div>
       </div>
