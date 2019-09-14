@@ -6,7 +6,12 @@
   min-width: 100px;
 }
 
+.title-font {
+  font-family: "Raleway", sans-serif;
+}
+
 .main-box {
+  font-family: "Ubuntu", sans-serif;
   height: 100vh;
   background-color: #f8f8f8;
   overflow-y: overlay;

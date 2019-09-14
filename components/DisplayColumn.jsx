@@ -21,6 +21,7 @@ const DisplayColumn = props => {
                   if (key !== "id") {
                     return <td key={idx}>{item[key]}</td>;
                   }
+                  return;
                 })}
               </tr>
             );
