@@ -32,6 +32,13 @@ export default class MainDocument extends Document {
             href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"
           />
           
+            href="https://fonts.googleapis.com/css?family=Raleway&display=swap"
+            rel="stylesheet"
+          ></link>
+          <link
+            href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap"
+            rel="stylesheet"
+          ></link>
         </Head>
         <body>
           <Main />

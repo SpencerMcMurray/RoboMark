@@ -5,3 +5,23 @@
   width: 100%;
   min-width: 100px;
 }
+
+.title-font {
+  font-family: "Raleway", sans-serif;
+}
+
+.main-box {
+  font-family: "Ubuntu", sans-serif;
+  height: 100vh;
+  background-color: #f8f8f8;
+  overflow-y: overlay;
+}
+
+.hover-grow {
+  transition: all 0.2s ease-in-out;
+}
+
+.hover-grow:hover {
+  transform: scale(1.1, 1.1);
+  opacity: 0.5;
+}
