@@ -21,7 +21,7 @@ const Display = props => {
                 items={props.items}
               />
             </div>
-            <div className="col-lg-3">
+            <div className="col-lg-3 d-flex align-items-center justify-content-center">
               <ButtonSpread buttons={props.buttons} />
             </div>
           </div>
