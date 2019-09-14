@@ -1,7 +1,10 @@
 import React from "react";
 import Brand from "../components/Brand";
 import DisplayColumn from "../components/DisplayColumn";
+import ButtonSpread from "../components/ButtonSpread";
 import Layout from "../components/Layout";
+
+import ScanBtn from "../components/buttons/ScanBtn";
 
 const Pages = props => {
   return (
@@ -12,10 +15,14 @@ const Pages = props => {
             <Brand />
           </div>
           <div className="col-lg-6 d-flex align-items-center">
-            <DisplayColumn />
+            <DisplayColumn
+              title="Pages"
+              headers={["Name", "Scan"]}
+              items={[{ id: 2, name: "Page 1", scan: <ScanBtn id={2} /> }]}
+            />
           </div>
           <div className="col-lg-3">
-            <Brand />
+            <ButtonSpread />
           </div>
         </div>
       </div>

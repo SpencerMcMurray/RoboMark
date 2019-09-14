@@ -1,7 +1,7 @@
 import React from "react";
 
 const ButtonSpread = props => {
-  return;
+  return <React.Fragment>{props.buttons}</React.Fragment>;
 };
 
 export default ButtonSpread;
