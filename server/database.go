@@ -1,14 +1,12 @@
-package main
+package server
 
 import (
 	"database/sql"
-	"fmt"
-	"strconv"
-
+	// this comment is here because the linter said so
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func init_db() {
+func initDb() {
 	database, _ := sql.Open("sqlite3", "./robomark.db")
 
 	// Create keyword db
@@ -19,7 +17,7 @@ func init_db() {
 	statement.Exec()
 
 	// Create users db
-	statement, _ := database.Prepare(`CREATE TABLE IF NOT EXISTS tests 
+	statement, _ = database.Prepare(`CREATE TABLE IF NOT EXISTS tests 
 	(id INTEGER PRIMARY KEY,
 		name TEXT, 
 		markNum INTEGER,
@@ -29,7 +27,7 @@ func init_db() {
 	statement.Exec()
 
 	// Create questions db
-	statement, _ := database.Prepare(`CREATE TABLE IF NOT EXISTS questions (
+	statement, _ = database.Prepare(`CREATE TABLE IF NOT EXISTS questions (
 		id INTEGER PRIMARY KEY,
 		expectedAnswers TEXT, 
 		markNum INTEGER,
@@ -42,7 +40,7 @@ func init_db() {
 	statement.Exec()
 
 	// Create pages db
-	statement, _ := database.Prepare(`CREATE TABLE IF NOT EXISTS pages (
+	statement, _ = database.Prepare(`CREATE TABLE IF NOT EXISTS pages (
 		id INTEGER PRIMARY KEY,
 		number INTEGER, 
 		markNum INTEGER,
@@ -53,7 +51,7 @@ func init_db() {
 	statement.Exec()
 
 	// Creates answers/keyword db
-	statement, _ := database.Prepare(`CREATE TABLE IF NOT EXISTS keywords (
+	statement, _ = database.Prepare(`CREATE TABLE IF NOT EXISTS keywords (
 		id INTEGER PRIMARY KEY,
 		questionID INTEGER, 
 		string TEXT,
@@ -63,12 +61,12 @@ func init_db() {
 		userID INTEGER)`) // ID of the teacher
 	statement.Exec()
 
-	rows, _ := database.Query("SELECT id, firstname, lastname FROM people")
-	var id int
-	var firstname string
-	var lastname string
-	for rows.Next() {
-		rows.Scan(&id, &firstname, &lastname)
-		fmt.Println(strconv.Itoa(id) + ": " + firstname + " " + lastname)
-	}
+	// rows, _ := database.Query("SELECT id, firstname, lastname FROM people")
+	// var id int
+	// var firstname string
+	// var lastname string
+	// for rows.Next() {
+	// 	rows.Scan(&id, &firstname, &lastname)
+	// 	fmt.Println(strconv.Itoa(id) + ": " + firstname + " " + lastname)
+	// }
 }
