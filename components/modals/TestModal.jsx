@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
-const QuestionModal = props => {
+const TestModal = props => {
   return (
     <Modal
       {...props}
@@ -15,7 +15,7 @@ const QuestionModal = props => {
         </Modal.Title>
       </Modal.Header>
       <Form>
-        <Modal.Body>Question</Modal.Body>
+        <Modal.Body>Test</Modal.Body>
       </Form>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
@@ -24,4 +24,4 @@ const QuestionModal = props => {
   );
 };
 
-export default QuestionModal;
+export default TestModal;

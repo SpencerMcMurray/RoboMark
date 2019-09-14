@@ -27,10 +27,25 @@ const Display = props => {
           </div>
         </div>
         <ModalManager
+          preview={{
+            show: props.showPreview,
+            onHide: props.onHidePreview,
+            header: "Question Preview"
+          }}
           question={{
-            show: props.show,
-            onHide: props.onHide,
-            header: "Update Question"
+            show: props.showQuestion,
+            onHide: props.onHideQuestion,
+            header: "Create Question"
+          }}
+          page={{
+            show: props.showPage,
+            onHide: props.onHidePage,
+            header: "Create Page"
+          }}
+          test={{
+            show: props.showTest,
+            onHide: props.onHideTest,
+            header: "Create Test"
           }}
         />
       </div>
