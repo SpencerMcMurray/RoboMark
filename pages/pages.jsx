@@ -9,7 +9,7 @@ const Pages = () => {
       title="Pages"
       headers={["Number", "Scan"]}
       items={[{ id: 2, name: 1, scan: <ScanBtn id={2} /> }]}
-      buttons={PageBtns}
+      buttons={<PageBtns />}
     />
   );
 };
