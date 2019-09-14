@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"encoding/json"
@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func main() {
+func analyseText() {
 
 	var subscriptionKeyVar string = "TEXT_ANALYTICS_SUBSCRIPTION_KEY"
 	if "" == os.Getenv(subscriptionKeyVar) {
