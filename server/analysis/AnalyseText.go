@@ -1,4 +1,4 @@
-package server
+package analysis
 
 import (
 	"encoding/json"
@@ -9,9 +9,17 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
-func analyseText() {
+// AnalyseText calls the Azure API to perform text analysis.
+func AnalyseText() {
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
 	var subscriptionKeyVar string = "TEXT_ANALYTICS_SUBSCRIPTION_KEY"
 	if "" == os.Getenv(subscriptionKeyVar) {

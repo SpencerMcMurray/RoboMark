@@ -1,15 +1,13 @@
-package server
+package main
 
 import (
-	"io"
-	"net/http"
+	analysis "RoboMark/server/analysis"
 )
 
-func hello(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "Hello world!")
-}
-
 func main() {
-	http.HandleFunc("/", hello)
-	http.ListenAndServe(":8000", nil)
+	// http.HandleFunc("/", hello)
+	// http.ListenAndServe(":8080", nil)
+
+	analysis.AnalyseImage()
+	analysis.AnalyseText()
 }
