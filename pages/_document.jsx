@@ -28,6 +28,10 @@ export default class MainDocument extends Document {
             crossOrigin="anonymous"
           />
           <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"
+          />
+          
             href="https://fonts.googleapis.com/css?family=Raleway&display=swap"
             rel="stylesheet"
           ></link>
