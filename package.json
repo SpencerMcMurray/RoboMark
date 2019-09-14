@@ -19,8 +19,12 @@
   },
   "homepage": "https://github.com/SpencerMcMurray/RoboMark#readme",
   "dependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "bootstrap": "^4.3.1",
     "next": "^9.0.5",
     "react": "^16.9.0",
+    "react-bootstrap": "^1.0.0-beta.12",
+    "react-device-detect": "^1.9.9",
     "react-dom": "^16.9.0"
   }
 }

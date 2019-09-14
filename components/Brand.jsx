@@ -1,11 +1,7 @@
 import React from "react";
 
 const Brand = props => {
-  return (
-    <React.Fragment>
-      <h1>RoboMark</h1>
-    </React.Fragment>
-  );
+  return <h1>RoboMark</h1>;
 };
 
 export default Brand;
