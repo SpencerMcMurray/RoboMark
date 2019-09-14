@@ -5,3 +5,9 @@
   width: 100%;
   min-width: 100px;
 }
+
+.main-box {
+  height: 100vh;
+  background-color: #f8f8f8;
+  overflow-y: overlay;
+}
