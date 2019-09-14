@@ -31,10 +31,10 @@ export default class MainDocument extends Document {
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"
           />
-          
+          <link
             href="https://fonts.googleapis.com/css?family=Raleway&display=swap"
             rel="stylesheet"
-          ></link>
+          />
           <link
             href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap"
             rel="stylesheet"
