@@ -3,7 +3,6 @@ import sys
 import requests
 import time
 import matplotlib.pyplot as plt
-import pprint
 from matplotlib.patches import Polygon
 from io import BytesIO
 
@@ -72,4 +71,4 @@ if ("recognitionResults" in analysis):
 #     ax.axes.add_patch(patch)
 #     plt.text(vertices[0][0], vertices[0][1], text, fontsize=20, va="top")
 
-pprint.pprint(analysis, indent=1)
+print(analysis)
