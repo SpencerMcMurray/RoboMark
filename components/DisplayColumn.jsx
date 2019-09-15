@@ -3,7 +3,7 @@ import { Table } from "react-bootstrap";
 
 const DisplayColumn = props => {
   return (
-    <div className="border rounded p-2 shadow display-col">
+    <div className="border rounded p-2 shadow display-col .bg-light">
       <h2 className="title-font">{props.title}</h2>
       <Table striped hover>
         <thead>

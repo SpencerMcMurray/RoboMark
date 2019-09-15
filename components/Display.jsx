@@ -8,6 +8,14 @@ import Layout from "./Layout";
 const Display = props => {
   return (
     <Layout>
+      <div
+        style={{
+          width: "auto",
+          height: "100vh",
+          background:
+            "linear-gradient(90deg, rgba(193,58,180,0.5956933798910189) 0%, rgba(253,29,29,0.6040967412355567) 50%, rgba(252,176,69,0.7525561249890581) 100%)"
+        }}
+      >
       <div className="p-4">
         <div className="d-flex justify-content-center">
           <div className="row w-100" style={{ height: "90vh" }}>
@@ -43,6 +51,7 @@ const Display = props => {
             header: "Create Test"
           }}
         />
+      </div>
       </div>
     </Layout>
   );

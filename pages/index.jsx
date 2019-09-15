@@ -12,14 +12,14 @@ const Index = props => {
           width: "auto",
           height: "40vh",
           background:
-            "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)"
+            "linear-gradient(90deg, rgba(193,58,180,0.5956933798910189) 0%, rgba(253,29,29,0.6040967412355567) 50%, rgba(252,176,69,0.7525561249890581) 100%)"
         }}
       >
         <div className="h-100 justify-content-center align-items-center pt-4">
           <Animated
             animationIn="jackInTheBox"
             isVisible={true}
-            className="fast"
+            className="slow"
           >
             <img
               src="../static/robomarklogo1.png"
@@ -29,7 +29,7 @@ const Index = props => {
               width="200px"
             />
           </Animated>
-          <h1 className="mx-auto d-block title-font hover-grow text-center">
+          <h1 className="mx-auto d-block title-font hover-grow text-center text-white">
             <b>RoboMark</b>
           </h1>
         </div>
@@ -41,8 +41,7 @@ const Index = props => {
           background: "#f8f8f8"
         }}
       >
-        <Card className="text-center">
-          <Card.Header>Welcome!</Card.Header>
+        <Card className=" border-3 text-center border-right-0 border-bottom-0 border-left-0 border-dark h-100 ">
           <Card.Body className="p-5">
             <div>
               <Card.Title>What is RoboMark?</Card.Title>
@@ -52,18 +51,21 @@ const Index = props => {
                 <br></br>RoboMark is built using React, Azure, Python and Go.
               </Card.Text>
               <Link href="/tests">
-              <Button variant="primary">Tests</Button>
+                <Button variant="primary">Tests</Button>
               </Link>
             </div>
           </Card.Body>
-          <Card.Footer className="text-muted">
-          <a target="_blank" href="https://github.com/SpencerMcMurray/RoboMark">
-            <i
-              className="fab fa-github"
-              style={{
-                fontSize: "40px"
-              }}
-            ></i>
+          <Card.Footer className="text-muted h-100">
+            <a
+              target="_blank"
+              href="https://github.com/SpencerMcMurray/RoboMark"
+            >
+              <i
+                className="fab fa-github"
+                style={{
+                  fontSize: "40px"
+                }}
+              ></i>
             </a>
           </Card.Footer>
         </Card>
