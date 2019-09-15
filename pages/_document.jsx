@@ -39,6 +39,8 @@ export default class MainDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap"
             rel="stylesheet"
           ></link>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css">
+          </link>
         </Head>
         <body>
           <Main />
