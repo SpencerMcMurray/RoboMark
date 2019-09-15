@@ -1,6 +1,8 @@
 package main
 
 import (
+	"RoboMark/server/data"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -13,6 +15,8 @@ const root = "RoboMark Server Root"
 
 const entities = "entities"
 const keyPhrases = "keyPhrases"
+
+const POST = "POST"
 
 // AnalyzeTextHandler .
 func AnalyzeTextHandler(image analysis.ImageAnalysis) error {
@@ -54,11 +58,31 @@ func Root(writer http.ResponseWriter, request *http.Request) {
 	writer.Write([]byte(root))
 }
 
+// AddQuestion .
+func AddQuestion(wrt http.ResponseWriter, req *http.Request) {
+	if req.Method != POST {
+		return
+	}
+
+	decoder := json.NewDecoder(req.Body)
+
+	var question data.Question
+	err := decoder.Decode(&question)
+	if err != nil {
+		panic(err)
+	}
+
+	log.Println("QUESTION", question)
+
+	// INSERT QUESTION
+}
+
 func main() {
 
 	fmt.Println("RoboMark server starting up.")
 	http.HandleFunc("/", Root)
 	http.HandleFunc("/analyze/", Analyze)
+	http.HandleFunc("/question/", AddQuestion)
 
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {
 		panic(err)
