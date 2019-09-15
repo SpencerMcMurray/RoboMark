@@ -24,10 +24,6 @@ func addUser(name string, isTeacher bool) {
 	statement.Exec(name, newValue)
 }
 
-func viewUsers() {
-
-}
-
 func addTest(name string, markNum, markDenom, userID int8) {
 	database, _ := sql.Open("sqlite3", "./robomark.db")
 	statement, _ := database.Prepare(`
@@ -35,12 +31,17 @@ func addTest(name string, markNum, markDenom, userID int8) {
 		(?, ?, ?, ?)
 	`)
 
-	
 	statement.Exec(name, markNum, markDenom, userID)
 }
 
-func viewTest() {
-
+func addPage(number, testID, userID string) {
+	database, _ := sql.Open("sqlite3", "./robomark.db")
+	statement, _ := database.Prepare(`
+		INSERT INTO TABLE pages VALUES (number, testID, userID)
+		(?, ?, ?, ?, ?, ?)
+	`)
+	
+	statement.Exec(number, testID, userID)
 }
 
 // expected answers are comma separated
@@ -54,22 +55,77 @@ func addQuestion(expectedAnswers string, markNum, markDenom int8, pageID, testID
 	statement.Exec(expectedAnswers, markNum, markDenom, pageID, testID, userID)
 }
 
-func viewQuestion() {
-
-}
-
-func addPage(number, testID, userID string) {
+func viewQuestion(pageID int8) []Question {
 	database, _ := sql.Open("sqlite3", "./robomark.db")
-	statement, _ := database.Prepare(`
-		INSERT INTO TABLE pages VALUES (number, testID, userID)
-		(?, ?, ?, ?, ?, ?)
-	`)
-	
-	statement.Exec(number, testID, userID)
+	rows, _ := database.Query("SELECT id, expectedAnswers, markNum, markDenom, pageID, testID, userID FROM questions
+	WHERE pageID = " + string(pageID))
+	var id string
+	var expectedAnswers string
+	var markNum int8
+	var markDenom int8
+	var pageID string
+	var testID string
+	var userID string
+
+	questions := []Question {}
+	var question Question
+
+	for rows.Next() {
+		rows.Scan(&id, &expectedAnswers, &markNum, &markDenom, &pageID, &testID, $userID)
+		question = Question{
+			id, expectedAnswers, markNum, markDenom, pageID, testID, userID
+		}
+		questions = append(questions, question)
+	}
+
+	return questions
 }
 
-func viewPage() {
+func viewPage(testID int8) []Page{
+	database, _ := sql.Open("sqlite3", "./robomark.db")
+	rows, _ := database.Query("SELECT id, number, testID, userID FROM pages
+	WHERE testID = " + string(testID))
+	var id string
+	var number string
+	var testID string
+	var userID string
 
+	pages := []page {}
+	var page Page
+
+	for rows.Next() {
+		rows.Scan(&id, &name, &markNum, &markDenom, $userID)
+		page = Page{
+			id, name, markNum, markDenom, userID
+		}
+		pages = append(pages, page)
+	}
+
+	return pages
+}
+
+func viewTests(userID int8) []Test {
+	database, _ := sql.Open("sqlite3", "./robomark.db")
+	rows, _ := database.Query("SELECT id, name, markNum, markDenom, userID FROM tests
+	WHERE userID = " + string(userID))
+	var id string
+	var name string
+	var markNum int8
+	var markDenom int8
+	var userID string
+
+	tests := []Test {}
+	var test Test
+
+	for rows.Next() {
+		rows.Scan(&id, &name, &markNum, &markDenom, $userID)
+		test = Test{
+			id, name, markNum, markDenom, userID
+		}
+		tests = append(tests, test)
+	}
+
+	return tests
 }
 
 func initDb() {
@@ -83,8 +139,8 @@ func initDb() {
 	statement.Exec()
 
 	// Create users db
-	statement, _ = database.Prepare(`CREATE TABLE IF NOT EXISTS tests 
-	(id INTEGER PRIMARY KEY,
+	statement, _ = database.Prepare(`CREATE TABLE IF NOT EXISTS tests (
+		id INTEGER PRIMARY KEY,
 		name TEXT, 
 		markNum INTEGER,
 		markDenom INTEGER,
@@ -109,8 +165,6 @@ func initDb() {
 	statement, _ = database.Prepare(`CREATE TABLE IF NOT EXISTS pages (
 		id INTEGER PRIMARY KEY,
 		number INTEGER, 
-		markNum INTEGER,
-		markDenom INTEGER,
 
 		testID INTEGER,
 		userID INTEGER )`) // ID of the teacher
