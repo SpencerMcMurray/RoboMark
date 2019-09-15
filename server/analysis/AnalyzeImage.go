@@ -2,8 +2,8 @@ package analysis
 
 import (
 	"encoding/json"
-	"log"
 	"os/exec"
+	"strconv"
 	"strings"
 )
 
@@ -41,7 +41,7 @@ type ImageAnalysis struct {
 func ImageAnalysisToInputDoc(imageAnalysis ImageAnalysis) (textInput TextInput) {
 	for i, recRes := range imageAnalysis.RecognitionResults {
 		inputDoc := InputDocument{
-			"en", string(i + 1), "",
+			"en", strconv.Itoa(i + 1), "",
 		}
 		for j, line := range recRes.Lines {
 			if j > 0 {
@@ -55,18 +55,19 @@ func ImageAnalysisToInputDoc(imageAnalysis ImageAnalysis) (textInput TextInput) 
 }
 
 // AnalyzeImage calls the Azure API to perform image analysis.
-func AnalyzeImage(imageURL string) (analysis ImageAnalysis) {
+func AnalyzeImage(imageURL string) (ImageAnalysis, error) {
 	PyAnalyze := exec.Command("python3", "./server/analysis/AnalyzeImage.py", imageURL)
 
 	out, err := PyAnalyze.Output()
 	if err != nil {
-		log.Fatal(err)
-		panic(err)
+		return ImageAnalysis{}, err
 	}
 
 	dataStr := strings.Replace(string(out), "'", "\"", -1)
 	dataBytes := []byte(dataStr)
 
+	var analysis ImageAnalysis
 	json.Unmarshal(dataBytes, &analysis)
-	return
+
+	return analysis, nil
 }
