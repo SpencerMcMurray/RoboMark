@@ -13,6 +13,12 @@ const root = "RoboMark Server Root"
 
 // AnalyzeTextHandler .
 func AnalyzeTextHandler(image analysis.ImageAnalysis) error {
+
+	inputDoc := analysis.ImageAnalysisToInputDoc(image)
+
+	// TODO get the required URI extension
+	analysis.AnalyzeText("", inputDoc)
+
 	return nil
 }
 
