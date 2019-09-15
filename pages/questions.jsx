@@ -19,7 +19,7 @@ const Questions = () => {
     promiseFn: fetchData,
     curr: "questions",
     prev: "tests",
-    prevId: router.query.id
+    prevId: router.query.test
   });
 
   const btns = [
@@ -34,9 +34,8 @@ const Questions = () => {
   ];
 
   const addQuestion = async item => {
-    const prevId = router.query.test;
     const fetch = (await axios.get(
-      `http://localhost:8081/api/tests?id=${prevId}`
+      `http://localhost:8081/api/tests?id=${router.query.test}`
     )).data.tests[0];
     const postData = {
       test: router.query.test,
@@ -44,7 +43,6 @@ const Questions = () => {
       answers: item.answers
     };
     postData.user = (await fetch).user;
-    console.log(postData);
     axios
       .post("http://localhost:8081/api/questions", postData)
       .then(() => allQuestions.reload())

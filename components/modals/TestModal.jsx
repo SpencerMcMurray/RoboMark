@@ -3,12 +3,6 @@ import { Modal, Form, Button } from "react-bootstrap";
 
 const TestModal = props => {
   const [name, setName] = useState("");
-
-  const handleAdd = () => {
-    console.log("NAME:    ", name);
-    props.onHide();
-  };
-
   return (
     <Modal
       {...props}
@@ -34,7 +28,7 @@ const TestModal = props => {
         </Modal.Body>
       </Form>
       <Modal.Footer>
-        <Button variant="success" onClick={() => handleAdd(name)}>
+        <Button variant="success" onClick={() => props.add({ name })}>
           Save
         </Button>
         <Button onClick={props.onHide}>Close</Button>

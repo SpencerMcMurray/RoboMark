@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 from flask import jsonify, request
 from .helpers import get_helper, post_helper
 
-PARAMS = ['user', 'name', 'markNum', 'markDenom']
+PARAMS = ['user', 'name', 'markDenom']
 
 parser = reqparse.RequestParser()
 for p in PARAMS:
