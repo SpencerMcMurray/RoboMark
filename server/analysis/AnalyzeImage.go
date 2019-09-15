@@ -55,8 +55,8 @@ func ImageAnalysisToInputDoc(imageAnalysis ImageAnalysis) (textInput TextInput) 
 }
 
 // AnalyzeImage calls the Azure API to perform image analysis.
-func AnalyzeImage(imageURL string) (ImageAnalysis, error) {
-	PyAnalyze := exec.Command("python3", "./server/analysis/AnalyzeImage.py", imageURL)
+func AnalyzeImage(file string) (ImageAnalysis, error) {
+	PyAnalyze := exec.Command("python3", "./server/analysis/AnalyzeImage.py", file)
 
 	out, err := PyAnalyze.Output()
 	if err != nil {

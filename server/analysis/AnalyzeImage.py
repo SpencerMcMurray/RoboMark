@@ -20,15 +20,14 @@ if Env.COMPUTER_VISION_ENDPOINT != "":
 
 text_recognition_url = endpoint + "vision/v2.0/read/core/asyncBatchAnalyze"
 
-# Set imageURL to the URL of an image that you want to analyze.
-imageURL = "https://upload.wikimedia.org/wikipedia/commons/d/dd/Cursive_Writing_on_Notebook_paper.jpg"
-if len(sys.argv) == 2:
-    imageURL = sys.argv[1]
+if len(sys.argv) != 2:
+    exit()
 
+file = open(sys.argv[1], "rb")
 headers = {'Ocp-Apim-Subscription-Key': subscription_key}
-data = {'url': imageURL}
+params = {'visualFeatures': 'Categories,Description,Color'}
 response = requests.post(
-    text_recognition_url, headers=headers, json=data)
+    text_recognition_url, headers=headers, data=file, params=params)
 response.raise_for_status()
 
 # Extracting text requires two API calls: One call to submit the

@@ -1,11 +1,12 @@
 package main
 
 import (
-	"RoboMark/server/data"
-	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
+	"os"
+	"strings"
 
 	analysis "RoboMark/server/analysis"
 )
@@ -16,29 +17,28 @@ const root = "RoboMark Server Root"
 const entities = "entities"
 const keyPhrases = "keyPhrases"
 
+// POST protocol.
 const POST = "POST"
 
 // AnalyzeTextHandler .
-func AnalyzeTextHandler(image analysis.ImageAnalysis) error {
+func AnalyzeTextHandler(image analysis.ImageAnalysis) (analysis.TextOutput, error) {
 	log.Println("Analyzing text.")
 
 	inputDoc := analysis.ImageAnalysisToInputDoc(image)
 	result, err := analysis.AnalyzeText(keyPhrases, inputDoc)
 	if err != nil {
-		return err
+		return analysis.TextOutput{}, err
 	}
 
 	log.Println("Finished analyzing text.")
-	fmt.Println(result)
-
-	return nil
+	return result, nil
 }
 
 // AnalyzeImageHandler .
-func AnalyzeImageHandler() analysis.ImageAnalysis {
+func AnalyzeImageHandler(file string) analysis.ImageAnalysis {
 	log.Println("Analyzing image.")
 
-	result, err := analysis.AnalyzeImage("https://upload.wikimedia.org/wikipedia/commons/d/dd/Cursive_Writing_on_Notebook_paper.jpg")
+	result, err := analysis.AnalyzeImage(file)
 	if err != nil {
 		panic(err)
 	}
@@ -49,8 +49,33 @@ func AnalyzeImageHandler() analysis.ImageAnalysis {
 
 // Analyze .
 func Analyze(writer http.ResponseWriter, request *http.Request) {
-	result := AnalyzeImageHandler()
-	AnalyzeTextHandler(result)
+
+	out, err := os.Create("photo.jpg")
+	defer out.Close()
+	file, header, err := request.FormFile("file")
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	name := strings.Split(header.Filename, ".")
+	fmt.Printf("File name %s\n", name[0])
+
+	_, err = io.Copy(out, file)
+	if err != nil {
+		panic(err)
+	}
+
+	imageResult := AnalyzeImageHandler("photo.jpg")
+
+	fmt.Println(imageResult)
+	textResult, err := AnalyzeTextHandler(imageResult)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(textResult)
+
+	// resp, err := http.Get("http://localhost:8081/api/questions?test=")
+
 }
 
 // Root .
@@ -58,31 +83,10 @@ func Root(writer http.ResponseWriter, request *http.Request) {
 	writer.Write([]byte(root))
 }
 
-// AddQuestion .
-func AddQuestion(wrt http.ResponseWriter, req *http.Request) {
-	if req.Method != POST {
-		return
-	}
-
-	decoder := json.NewDecoder(req.Body)
-
-	var question data.Question
-	err := decoder.Decode(&question)
-	if err != nil {
-		panic(err)
-	}
-
-	log.Println("QUESTION", question)
-
-	// INSERT QUESTION
-}
-
 func main() {
-
 	fmt.Println("RoboMark server starting up.")
 	http.HandleFunc("/", Root)
 	http.HandleFunc("/analyze/", Analyze)
-	http.HandleFunc("/question/", AddQuestion)
 
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {
 		panic(err)
