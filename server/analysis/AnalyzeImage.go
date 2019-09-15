@@ -33,13 +33,30 @@ type RecognitionResult struct {
 
 // ImageAnalysis .
 type ImageAnalysis struct {
-	Status            string              `json:"status"`
-	RecognitionResult []RecognitionResult `json:"recognitionResults"`
+	Status             string              `json:"status"`
+	RecognitionResults []RecognitionResult `json:"recognitionResults"`
+}
+
+// ImageAnalysisToInputDoc .
+func ImageAnalysisToInputDoc(imageAnalysis ImageAnalysis) (textInput TextInput) {
+	for i, recRes := range imageAnalysis.RecognitionResults {
+		inputDoc := InputDocument{
+			"en", string(i + 1), "",
+		}
+		for j, line := range recRes.Lines {
+			if j > 0 {
+				inputDoc.Text = inputDoc.Text + " "
+			}
+			inputDoc.Text = inputDoc.Text + line.Text
+		}
+		textInput.Documents = append(textInput.Documents, inputDoc)
+	}
+	return
 }
 
 // AnalyzeImage calls the Azure API to perform image analysis.
-func AnalyzeImage() (analysis ImageAnalysis) {
-	PyAnalyze := exec.Command("python3", "./server/analysis/AnalyzeImage.py")
+func AnalyzeImage(imageURL string) (analysis ImageAnalysis) {
+	PyAnalyze := exec.Command("python3", "./server/analysis/AnalyzeImage.py", imageURL)
 
 	out, err := PyAnalyze.Output()
 	if err != nil {

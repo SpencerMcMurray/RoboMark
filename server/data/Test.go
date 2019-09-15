@@ -2,10 +2,10 @@ package data
 
 // Test defines a test paper structure.
 type Test struct {
-	ID        string `json:"id"`
+	ID        int    `json:"id"`
 	Name      string `json:"name"`
-	MarkNum   int8   `json:"markNum"`
-	MarkDenom int8   `json:"markDenom"`
+	MarkNum   int    `json:"markNum"`
+	MarkDenom int    `json:"markDenom"`
 
-	UserID string `json:"userID"`
+	UserID int `json:"userID"`
 }
