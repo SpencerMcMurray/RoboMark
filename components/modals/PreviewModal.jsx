@@ -14,9 +14,7 @@ const PreviewModal = props => {
           {props.header}
         </Modal.Title>
       </Modal.Header>
-      <Form>
-        <Modal.Body>Preview</Modal.Body>
-      </Form>
+      <Modal.Body>Preview</Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>

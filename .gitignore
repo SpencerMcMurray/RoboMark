@@ -1,4 +1,5 @@
 /node_modules
 /.next
+/.vscode
 .env
 npm-debug.log
