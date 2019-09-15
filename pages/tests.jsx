@@ -1,10 +1,23 @@
 import React, { useState } from "react";
 import Display from "../components/Display";
-import SelectBtn from "../components/buttons/SelectBtn";
 import { Button } from "react-bootstrap";
+import LoadingScreen from "../components/LoadingScreen";
+
+import fetchData from "../static/helpers/fetchData";
+import { useRouter } from "next/router";
+import { useAsync, IfPending, IfFulfilled } from "react-async";
+const axios = require("axios");
 
 const Tests = () => {
   const [show, setShow] = useState(false);
+  const router = useRouter();
+
+  const allTests = useAsync({
+    promiseFn: fetchData,
+    curr: "tests",
+    prev: "users",
+    prevId: router.query.id
+  });
 
   const btns = [
     <Button
@@ -18,14 +31,21 @@ const Tests = () => {
   ];
 
   return (
-    <Display
-      showTest={show}
-      onHideTest={() => setShow(false)}
-      title="Tests"
-      headers={["Name", "Select"]}
-      items={[{ id: 2, name: "CSC263 Final", select: <SelectBtn /> }]}
-      buttons={btns}
-    />
+    <React.Fragment>
+      <IfPending state={allTests}>
+        <LoadingScreen />
+      </IfPending>
+      <IfFulfilled state={allTests}>
+        <Display
+          showTest={show}
+          onHideTest={() => setShow(false)}
+          title="Tests"
+          headers={["Name", "Select"]}
+          items={allTests.value}
+          buttons={btns}
+        />
+      </IfFulfilled>
+    </React.Fragment>
   );
 };
 
