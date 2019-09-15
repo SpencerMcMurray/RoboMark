@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Brand from "./Brand";
 import DisplayColumn from "./DisplayColumn";
 import ButtonSpread from "./ButtonSpread";
@@ -27,10 +27,20 @@ const Display = props => {
           </div>
         </div>
         <ModalManager
+          preview={{
+            show: props.showPreview,
+            onHide: props.onHidePreview,
+            header: "Question Preview"
+          }}
           question={{
-            show: props.show,
-            onHide: props.onHide,
-            header: "Update Question"
+            show: props.showQuestion,
+            onHide: props.onHideQuestion,
+            header: "Create Question"
+          }}
+          test={{
+            show: props.showTest,
+            onHide: props.onHideTest,
+            header: "Create Test"
           }}
         />
       </div>

@@ -27,7 +27,6 @@
     "react-animated-css": "^1.2.1",
     "react-bootstrap": "^1.0.0-beta.12",
     "react-device-detect": "^1.9.9",
-    "react-dom": "^16.9.0",
-    "react-p5-wrapper": "^2.0.0"
+    "react-dom": "^16.9.0"
   }
 }
