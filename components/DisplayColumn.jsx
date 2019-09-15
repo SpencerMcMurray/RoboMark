@@ -1,5 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
+import SelectBtn from "../components/buttons/SelectBtn";
+import QuestionBtn from "../components/buttons/QuestionBtn";
 
 const DisplayColumn = props => {
   return (
@@ -17,12 +19,22 @@ const DisplayColumn = props => {
           {props.items.map(item => {
             return (
               <tr key={item.id}>
-                {Object.keys(item).map((key, idx) => {
-                  if (key !== "id") {
-                    return <td key={idx}>{item[key]}</td>;
-                  }
-                  return;
-                })}
+                <React.Fragment>
+                  <td>{item.name ? item.name : item.question}</td>
+                  <td>
+                    {item.name ? (
+                      <SelectBtn id={item.id} />
+                    ) : (
+                      <QuestionBtn
+                        onClick={() => {
+                          props.setCurrentItem(item);
+                          props.onShowPreview();
+                        }}
+                        item={item}
+                      />
+                    )}
+                  </td>
+                </React.Fragment>
               </tr>
             );
           })}

@@ -12,13 +12,6 @@ const Tests = () => {
   const [show, setShow] = useState(false);
   const router = useRouter();
 
-  const allTests = useAsync({
-    promiseFn: fetchData,
-    curr: "tests",
-    prev: "users",
-    prevId: router.query.id
-  });
-
   const btns = [
     <Button
       variant="success"
@@ -29,6 +22,13 @@ const Tests = () => {
       Create New
     </Button>
   ];
+
+  const allTests = useAsync({
+    promiseFn: fetchData,
+    curr: "tests",
+    prev: "users",
+    prevId: router.query.id
+  });
 
   return (
     <React.Fragment>

@@ -69,7 +69,7 @@ func AddPage(number, testID, userID string) {
 
 	statement, _ := db.Prepare(`
 		INSERT INTO TABLE pages VALUES (number, testID, userID)
-		(?, ?, ?, ?, ?, ?)
+		(?, ?, ?)
 	`)
 
 	statement.Exec(number, testID, userID)
