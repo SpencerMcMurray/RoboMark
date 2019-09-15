@@ -13,8 +13,20 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// AnalyzeText calls the Azure API to perform text analysis.
-func AnalyzeText() {
+// InputDocument .
+type InputDocument struct {
+	Language string `json:"language"`
+	ID       string `json:"id"`
+	Text     string `json:"text"`
+}
+
+// TextInput .
+type TextInput struct {
+	Documents []InputDocument `json:"documents"`
+}
+
+// AnalyzeText .
+func AnalyzeText(extension string, input TextInput) {
 
 	err := godotenv.Load()
 	if err != nil {
@@ -33,15 +45,10 @@ func AnalyzeText() {
 	}
 	var endpoint string = os.Getenv(endpointVar)
 
-	const uriPath = "/text/analytics/v2.1/languages"
-
+	uriPath := "/text/analytics/v2.1/" + extension
 	var uri = endpoint + uriPath
 
-	data := []map[string]string{
-		{"id": "1", "text": "This is a document written in English."},
-		{"id": "2", "text": "Este es un document escrito en Español."},
-		{"id": "3", "text": "这是一个用中文写的文件"},
-	}
+	data := input
 
 	documents, err := json.Marshal(&data)
 	if err != nil {

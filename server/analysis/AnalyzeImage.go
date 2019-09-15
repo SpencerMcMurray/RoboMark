@@ -37,9 +37,13 @@ type ImageAnalysis struct {
 	RecognitionResult []RecognitionResult `json:"recognitionResults"`
 }
 
+func ImageAnalysisToInputDoc(imageAnalysis ImageAnalysis) InputDocument {
+	return InputDocument{}
+}
+
 // AnalyzeImage calls the Azure API to perform image analysis.
-func AnalyzeImage() (analysis ImageAnalysis) {
-	PyAnalyze := exec.Command("python3", "./server/analysis/AnalyzeImage.py")
+func AnalyzeImage(imageURL string) (analysis ImageAnalysis) {
+	PyAnalyze := exec.Command("python3", "./server/analysis/AnalyzeImage.py", imageURL)
 
 	out, err := PyAnalyze.Output()
 	if err != nil {

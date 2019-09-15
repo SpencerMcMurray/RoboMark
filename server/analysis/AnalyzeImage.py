@@ -8,9 +8,6 @@ from io import BytesIO
 
 import Env
 
-
-# from PIL import Image
-
 # Add your Computer Vision subscription key and endpoint to your environment variables.
 if Env.COMPUTER_VISION_SUBSCRIPTION_KEY != "":
     subscription_key = Env.COMPUTER_VISION_SUBSCRIPTION_KEY
@@ -23,11 +20,13 @@ if Env.COMPUTER_VISION_ENDPOINT != "":
 
 text_recognition_url = endpoint + "vision/v2.0/read/core/asyncBatchAnalyze"
 
-# Set image_url to the URL of an image that you want to analyze.
-image_url = "https://upload.wikimedia.org/wikipedia/commons/d/dd/Cursive_Writing_on_Notebook_paper.jpg"
+# Set imageURL to the URL of an image that you want to analyze.
+imageURL = "https://upload.wikimedia.org/wikipedia/commons/d/dd/Cursive_Writing_on_Notebook_paper.jpg"
+if len(sys.argv) == 2:
+    imageURL = sys.argv[1]
 
 headers = {'Ocp-Apim-Subscription-Key': subscription_key}
-data = {'url': image_url}
+data = {'url': imageURL}
 response = requests.post(
     text_recognition_url, headers=headers, json=data)
 response.raise_for_status()
@@ -52,23 +51,5 @@ while (poll):
     if ("status" in analysis and analysis['status'] == 'Failed'):
         poll = False
 
-polygons = []
-if ("recognitionResults" in analysis):
-    # Extract the recognized text, with bounding boxes.
-    polygons = [(line["boundingBox"], line["text"])
-                for line in analysis["recognitionResults"][0]["lines"]]
-
-# Display the image and overlay it with the extracted text.
-
-# plt.figure(figsize=(15, 15))
-# image = Image.open(BytesIO(requests.get(image_url).content))
-# ax = plt.imshow(image)
-# for polygon in polygons:
-#     vertices = [(polygon[0][i], polygon[0][i+1])
-#                 for i in range(0, len(polygon[0]), 2)]
-#     text = polygon[1]
-#     patch = Polygon(vertices, closed=True, fill=False, linewidth=2, color='y')
-#     ax.axes.add_patch(patch)
-#     plt.text(vertices[0][0], vertices[0][1], text, fontsize=20, va="top")
-
+# print(sys.argv)
 print(analysis)
