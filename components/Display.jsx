@@ -50,12 +50,14 @@ const Display = props => {
             question={{
               show: props.showQuestion,
               onHide: props.onHideQuestion,
-              header: "Create Question"
+              header: "Create Question",
+              add: props.add
             }}
             test={{
               show: props.showTest,
               onHide: props.onHideTest,
-              header: "Create Test"
+              header: "Create Test",
+              add: props.add
             }}
           />
         </div>

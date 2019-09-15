@@ -33,6 +33,24 @@ const Questions = () => {
     </Button>
   ];
 
+  const addQuestion = async item => {
+    const prevId = router.query.test;
+    const fetch = (await axios.get(
+      `http://localhost:8081/api/tests?id=${prevId}`
+    )).data.tests[0];
+    const postData = {
+      test: router.query.test,
+      question: item.question,
+      answers: item.answers
+    };
+    postData.user = (await fetch).user;
+    console.log(postData);
+    axios
+      .post("http://localhost:8081/api/questions", postData)
+      .then(() => allQuestions.reload())
+      .then(() => setShow(false));
+  };
+
   return (
     <React.Fragment>
       <IfPending state={allQuestions}>
@@ -49,6 +67,7 @@ const Questions = () => {
           headers={["Number", "Preview"]}
           items={allQuestions.value}
           buttons={btns}
+          add={addQuestion}
         />
       </IfFulfilled>
     </React.Fragment>
