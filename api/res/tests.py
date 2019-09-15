@@ -1,8 +1,8 @@
 from flask_restful import Resource, reqparse
 from flask import jsonify, request
-from .helpers import get_helper, post_helper
+from .helpers import get_helper, post_helper, patch_helper
 
-PARAMS = ['user', 'name', 'markNum', 'markDenom']
+PARAMS = ['user', 'name', 'markDenom']
 
 parser = reqparse.RequestParser()
 for p in PARAMS:
@@ -20,3 +20,7 @@ class Tests(Resource):
         args = parser.parse_args()
         args = [(args.get(p), p) for p in PARAMS]
         return post_helper("tests", args)
+
+    def patch(self):
+        args = request.args
+        return patch_helper("tests", args.get('id'), args.get('new'), args.get('field'))

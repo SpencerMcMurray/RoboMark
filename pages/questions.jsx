@@ -19,7 +19,7 @@ const Questions = () => {
     promiseFn: fetchData,
     curr: "questions",
     prev: "tests",
-    prevId: router.query.id
+    prevId: router.query.test
   });
 
   const btns = [
@@ -32,6 +32,26 @@ const Questions = () => {
       Create New
     </Button>
   ];
+
+  const addQuestion = async item => {
+    const fetch = (await axios.get(
+      `http://localhost:8081/api/tests?id=${router.query.test}`
+    )).data.tests[0];
+    const postData = {
+      test: router.query.test,
+      question: item.question,
+      answers: item.answers
+    };
+    postData.user = (await fetch).user;
+    const num = (await fetch).markDenom + item.answers.split(",").length;
+    axios.patch(
+      `http://localhost:8081/api/tests?id=${router.query.test}&field=markDenom&new=${num}`
+    );
+    axios
+      .post("http://localhost:8081/api/questions", postData)
+      .then(() => allQuestions.reload())
+      .then(() => setShow(false));
+  };
 
   return (
     <React.Fragment>
@@ -49,6 +69,7 @@ const Questions = () => {
           headers={["Number", "Preview"]}
           items={allQuestions.value}
           buttons={btns}
+          add={addQuestion}
         />
       </IfFulfilled>
     </React.Fragment>

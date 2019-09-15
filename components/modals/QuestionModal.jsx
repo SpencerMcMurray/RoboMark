@@ -40,12 +40,17 @@ const QuestionModal = props => {
               value={answers}
               onChange={evt => setAnswers(evt.target.value)}
             />
-            <Form.Text>Enter the answers in a formatted way</Form.Text>
+            <Form.Text>Seperate each key word with a comma</Form.Text>
           </Form.Group>
         </Modal.Body>
       </Form>
       <Modal.Footer>
-        <Button onClick={() => handleAdd(question, answers)}>Save</Button>
+        <Button
+          variant="success"
+          onClick={() => props.add({ question, answers })}
+        >
+          Save
+        </Button>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>

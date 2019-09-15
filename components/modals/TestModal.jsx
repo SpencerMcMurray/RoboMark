@@ -28,6 +28,9 @@ const TestModal = props => {
         </Modal.Body>
       </Form>
       <Modal.Footer>
+        <Button variant="success" onClick={() => props.add({ name })}>
+          Save
+        </Button>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>

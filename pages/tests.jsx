@@ -14,7 +14,6 @@ const Tests = () => {
 
   const btns = [
     <Button
-      variant="success"
       onClick={() => {
         setShow(true);
       }}
@@ -27,8 +26,20 @@ const Tests = () => {
     promiseFn: fetchData,
     curr: "tests",
     prev: "users",
-    prevId: router.query.id
+    prevId: router.query.user
   });
+
+  const addTest = async item => {
+    const postData = {
+      user: router.query.user,
+      name: item.name,
+      markDenom: 0
+    };
+    axios
+      .post("http://localhost:8081/api/tests", postData)
+      .then(() => allTests.reload())
+      .then(() => setShow(false));
+  };
 
   return (
     <React.Fragment>
@@ -43,6 +54,7 @@ const Tests = () => {
           headers={["Name", "Select"]}
           items={allTests.value}
           buttons={btns}
+          add={addTest}
         />
       </IfFulfilled>
     </React.Fragment>

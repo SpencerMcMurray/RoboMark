@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from flask import jsonify, request
-from .helpers import get_helper, post_helper
+from .helpers import get_helper, post_helper, patch_helper
 
 PARAMS = ['user', 'test', 'question', 'answers']
 
