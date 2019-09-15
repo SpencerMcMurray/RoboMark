@@ -1,15 +1,12 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-
-const handleClick = () => {
-  console.log("Selected!");
-};
+import Link from "next/link";
 
 const SelectBtn = props => {
   return (
-    <Button variant="success" onClick={handleClick}>
-      Select
-    </Button>
+    <Link href={`/questions?test=${props.id}`}>
+      <Button variant="success">Questions</Button>
+    </Link>
   );
 };
 

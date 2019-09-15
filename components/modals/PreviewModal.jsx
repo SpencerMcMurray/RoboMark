@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
 const PreviewModal = props => {
+  console.log(props);
   return (
     <Modal
       {...props}
@@ -14,7 +15,14 @@ const PreviewModal = props => {
           {props.header}
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>Preview</Modal.Body>
+      <Modal.Body>
+        <p>
+          <b>Question:</b> {props.curr.question}
+        </p>
+        <p>
+          <b>Answers:</b> {props.curr.answers}
+        </p>
+      </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
