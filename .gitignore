@@ -1,6 +1,6 @@
 /node_modules
 /.next
 /.vscode
-/api/res/__pycache__
 .env
 npm-debug.log
+__pycache__

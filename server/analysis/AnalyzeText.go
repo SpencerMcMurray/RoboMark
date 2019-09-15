@@ -13,6 +13,18 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// OutputDocument .
+type OutputDocument struct {
+	ID         string   `json:"id"`
+	KeyPhrases []string `json:"keyPhrases"`
+}
+
+// TextOutput .
+type TextOutput struct {
+	Documents []OutputDocument `json:"documents"`
+	Errors    []interface{}    `json:"errors"`
+}
+
 // InputDocument .
 type InputDocument struct {
 	Language string `json:"language"`
@@ -26,15 +38,17 @@ type TextInput struct {
 }
 
 // AnalyzeText .
-func AnalyzeText(extension string, input TextInput) {
-	err := godotenv.Load()
-	if err != nil {
+func AnalyzeText(extension string, input TextInput) (TextOutput, error) {
+
+	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file")
+		return TextOutput{}, err
 	}
 
 	var subscriptionKeyVar string = "TEXT_ANALYTICS_SUBSCRIPTION_KEY"
 	if "" == os.Getenv(subscriptionKeyVar) {
 		log.Fatal("Please set/export the environment variable " + subscriptionKeyVar + ".")
+		return TextOutput{}, nil
 	}
 
 	var subscriptionKey string = os.Getenv(subscriptionKeyVar)
@@ -44,7 +58,7 @@ func AnalyzeText(extension string, input TextInput) {
 	}
 	var endpoint string = os.Getenv(endpointVar)
 
-	uriPath := "/text/analytics/v2.1/" + extension
+	uriPath := "text/analytics/v2.1/" + extension
 	var uri = endpoint + uriPath
 
 	data := input
@@ -52,10 +66,10 @@ func AnalyzeText(extension string, input TextInput) {
 	documents, err := json.Marshal(&data)
 	if err != nil {
 		fmt.Printf("Error marshaling data: %v\n", err)
-		return
+		return TextOutput{}, err
 	}
 
-	r := strings.NewReader("{\"documents\": " + string(documents) + "}")
+	r := strings.NewReader(string(documents))
 	client := &http.Client{
 		Timeout: time.Second * 2,
 	}
@@ -63,7 +77,7 @@ func AnalyzeText(extension string, input TextInput) {
 	req, err := http.NewRequest("POST", uri, r)
 	if err != nil {
 		fmt.Printf("Error creating request: %v\n", err)
-		return
+		return TextOutput{}, err
 	}
 
 	req.Header.Add("Content-Type", "application/json")
@@ -72,23 +86,18 @@ func AnalyzeText(extension string, input TextInput) {
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Printf("Error on request: %v\n", err)
-		return
+		return TextOutput{}, err
 	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Printf("Error reading response body: %v\n", err)
-		return
+		return TextOutput{}, err
 	}
 
-	var f interface{}
-	json.Unmarshal(body, &f)
+	var analysis TextOutput
+	json.Unmarshal(body, &analysis)
 
-	jsonFormatted, err := json.MarshalIndent(f, "", "  ")
-	if err != nil {
-		fmt.Printf("Error producing JSON: %v\n", err)
-		return
-	}
-	fmt.Println(string(jsonFormatted))
+	return analysis, nil
 }
