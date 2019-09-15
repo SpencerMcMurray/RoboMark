@@ -112,14 +112,15 @@ func ViewQuestion(pageID int) []Question {
 	questions := []Question{}
 	for rows.Next() {
 		var id int
+		var text string
 		var expectedAnswers string
 		var markNum int
 		var markDenom int
 		var testID int
 		var userID int
 
-		rows.Scan(&id, &expectedAnswers, &markNum, &markDenom, &pageID, &testID, &userID)
-		questions = append(questions, Question{id, expectedAnswers, markNum, markDenom, pageID, testID, userID})
+		rows.Scan(&id, &text, &expectedAnswers, &markNum, &markDenom, &pageID, &testID, &userID)
+		questions = append(questions, Question{id, text, expectedAnswers, markNum, markDenom, pageID, testID, userID})
 	}
 
 	return questions
