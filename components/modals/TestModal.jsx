@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
 const TestModal = props => {
+  const [name, setName] = useState("");
   return (
     <Modal
       {...props}
@@ -15,7 +16,16 @@ const TestModal = props => {
         </Modal.Title>
       </Modal.Header>
       <Form>
-        <Modal.Body>Test</Modal.Body>
+        <Modal.Body>
+          <Form.Group controlId="name">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              placeholder="Enter the test name"
+              value={name}
+              onChange={evt => setName(evt.target.value)}
+            />
+          </Form.Group>
+        </Modal.Body>
       </Form>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>

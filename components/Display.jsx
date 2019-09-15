@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Brand from "./Brand";
 import DisplayColumn from "./DisplayColumn";
 import ButtonSpread from "./ButtonSpread";
@@ -36,11 +36,6 @@ const Display = props => {
             show: props.showQuestion,
             onHide: props.onHideQuestion,
             header: "Create Question"
-          }}
-          page={{
-            show: props.showPage,
-            onHide: props.onHidePage,
-            header: "Create Page"
           }}
           test={{
             show: props.showTest,
