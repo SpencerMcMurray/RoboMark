@@ -43,6 +43,10 @@ const Questions = () => {
       answers: item.answers
     };
     postData.user = (await fetch).user;
+    const num = (await fetch).markDenom + item.answers.split(",").length;
+    axios.patch(
+      `http://localhost:8081/api/tests?id=${router.query.test}&field=markDenom&new=${num}`
+    );
     axios
       .post("http://localhost:8081/api/questions", postData)
       .then(() => allQuestions.reload())
