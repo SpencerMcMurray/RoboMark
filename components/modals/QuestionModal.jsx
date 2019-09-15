@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
-const handleUpdate = () => {
-  console.log("Updated");
-};
-
 const QuestionModal = props => {
+  const [question, setQuestion] = useState("");
+  const [answers, setAnswers] = useState("");
+
+  const handleAdd = () => {
+    console.log("QUESTION:    ", question);
+    console.log("ANSWERS:    ", answers);
+    props.onHide();
+  };
+
   return (
     <Modal
       {...props}
@@ -19,12 +24,28 @@ const QuestionModal = props => {
         </Modal.Title>
       </Modal.Header>
       <Form>
-        <Modal.Body>Moodal</Modal.Body>
+        <Modal.Body>
+          <Form.Group controlId="question">
+            <Form.Label>Question</Form.Label>
+            <Form.Control
+              placeholder="Enter the question"
+              value={question}
+              onChange={evt => setQuestion(evt.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="answers">
+            <Form.Label>Answers</Form.Label>
+            <Form.Control
+              placeholder="Enter the answers"
+              value={answers}
+              onChange={evt => setAnswers(evt.target.value)}
+            />
+            <Form.Text>Enter the answers in a formatted way</Form.Text>
+          </Form.Group>
+        </Modal.Body>
       </Form>
       <Modal.Footer>
-        <Button onClick={handleUpdate} variant="success">
-          Update
-        </Button>
+        <Button onClick={() => handleAdd(question, answers)}>Save</Button>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>

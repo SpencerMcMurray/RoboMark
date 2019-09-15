@@ -8,6 +8,6 @@ func main() {
 	// http.HandleFunc("/", hello)
 	// http.ListenAndServe(":8080", nil)
 
-	analysis.AnalyseImage()
-	analysis.AnalyseText()
+	analysis.AnalyzeImage()
+	// analysis.AnalyzeText()
 }
