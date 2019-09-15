@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	analysis "RoboMark/server/analysis"
+	data "RoboMark/server/data"
 )
 
 const port = 8080
@@ -31,6 +32,10 @@ func Root(writer http.ResponseWriter, request *http.Request) {
 }
 
 func main() {
+
+	data.ViewTests(1)
+
+	return
 	fmt.Println("RoboMark server starting up.")
 	http.HandleFunc("/", Root)
 	http.HandleFunc("/image/", AnalyzeImageHandler)

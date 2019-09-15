@@ -1,32 +1,53 @@
-package main
+package data
 
 import (
 	"database/sql"
+	"fmt"
 	"strconv"
-	// this comment is here because the linter said so
-	_ "github.com/mattn/go-sqlite3"
+
+	// May need this.
+	_ "github.com/go-sql-driver/mysql"
 )
 
-// returns user id
-func addUser(name string, isTeacher bool) {
-	database, _ := sql.Open("sqlite3", "./robomark.db")
-	statement, _ := database.Prepare(`
+// AddUser .
+func AddUser(name string, isTeacher bool) {
+	db, err := sql.Open("mysql", "robomark:Gw3CVo~1Z4d~@tcp(den1.mysql6.gear.host)/robomark")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	err = db.Ping()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	statement, _ := db.Prepare(`
 		INSERT INTO TABLE users VALUES (name, isTeacher)
 		(?, ?)
 	`)
 
-	var value := 0
+	value := 0
 	if isTeacher {
 		value = 1
 	}
-	var newValue := strconv.Itoa(value)
+	newValue := strconv.Itoa(value)
 
 	statement.Exec(name, newValue)
 }
 
-func addTest(name string, markNum, markDenom, userID int8) {
-	database, _ := sql.Open("sqlite3", "./robomark.db")
-	statement, _ := database.Prepare(`
+// AddTest .
+func AddTest(name string, markNum, markDenom, userID int) {
+	db, err := sql.Open("mysql", "robomark:Gw3CVo~1Z4d~@tcp(den1.mysql6.gear.host)/robomark")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	err = db.Ping()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	statement, _ := db.Prepare(`
 		INSERT INTO TABLE tests VALUES (name, markNum, markDenom, userID)
 		(?, ?, ?, ?)
 	`)
@@ -34,148 +55,136 @@ func addTest(name string, markNum, markDenom, userID int8) {
 	statement.Exec(name, markNum, markDenom, userID)
 }
 
-func addPage(number, testID, userID string) {
-	database, _ := sql.Open("sqlite3", "./robomark.db")
-	statement, _ := database.Prepare(`
+// AddPage .
+func AddPage(number, testID, userID string) {
+	db, err := sql.Open("mysql", "robomark:Gw3CVo~1Z4d~@tcp(den1.mysql6.gear.host)/robomark")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	err = db.Ping()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	statement, _ := db.Prepare(`
 		INSERT INTO TABLE pages VALUES (number, testID, userID)
 		(?, ?, ?, ?, ?, ?)
 	`)
-	
+
 	statement.Exec(number, testID, userID)
 }
 
-// expected answers are comma separated
-func addQuestion(expectedAnswers string, markNum, markDenom int8, pageID, testID, userID string) {
-	database, _ := sql.Open("sqlite3", "./robomark.db")
-	statement, _ := database.Prepare(`
+// AddQuestion .
+func AddQuestion(expectedAnswers string, markNum, markDenom int, pageID, testID, userID string) {
+	db, err := sql.Open("mysql", "robomark:Gw3CVo~1Z4d~@tcp(den1.mysql6.gear.host)/robomark")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	err = db.Ping()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	statement, _ := db.Prepare(`
 		INSERT INTO TABLE questions VALUES (name, markNum, markDenom, pageID, testID, userID)
 		(?, ?, ?, ?, ?, ?)
 	`)
-	
+
 	statement.Exec(expectedAnswers, markNum, markDenom, pageID, testID, userID)
 }
 
-func viewQuestion(pageID int8) []Question {
-	database, _ := sql.Open("sqlite3", "./robomark.db")
-	rows, _ := database.Query("SELECT id, expectedAnswers, markNum, markDenom, pageID, testID, userID FROM questions
-	WHERE pageID = " + string(pageID))
-	var id string
-	var expectedAnswers string
-	var markNum int8
-	var markDenom int8
-	var pageID string
-	var testID string
-	var userID string
+// ViewQuestion .
+func ViewQuestion(pageID int) []Question {
+	db, err := sql.Open("mysql", "robomark:Gw3CVo~1Z4d~@tcp(den1.mysql6.gear.host)/robomark")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	err = db.Ping()
+	if err != nil {
+		panic(err.Error())
+	}
 
-	questions := []Question {}
-	var question Question
+	rows, _ := db.Query(`SELECT * FROM questions WHERE page = ?`, pageID)
 
+	questions := []Question{}
 	for rows.Next() {
-		rows.Scan(&id, &expectedAnswers, &markNum, &markDenom, &pageID, &testID, $userID)
-		question = Question{
-			id, expectedAnswers, markNum, markDenom, pageID, testID, userID
-		}
-		questions = append(questions, question)
+		var id int
+		var expectedAnswers string
+		var markNum int
+		var markDenom int
+		var testID int
+		var userID int
+
+		rows.Scan(&id, &expectedAnswers, &markNum, &markDenom, &pageID, &testID, &userID)
+		questions = append(questions, Question{id, expectedAnswers, markNum, markDenom, pageID, testID, userID})
 	}
 
 	return questions
 }
 
-func viewPage(testID int8) []Page{
-	database, _ := sql.Open("sqlite3", "./robomark.db")
-	rows, _ := database.Query("SELECT id, number, testID, userID FROM pages
-	WHERE testID = " + string(testID))
-	var id string
-	var number string
-	var testID string
-	var userID string
+// ViewPage .
+func ViewPage(testID int) []Page {
+	db, err := sql.Open("mysql", "robomark:Gw3CVo~1Z4d~@tcp(den1.mysql6.gear.host)/robomark")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	err = db.Ping()
+	if err != nil {
+		panic(err.Error())
+	}
 
-	pages := []page {}
-	var page Page
+	rows, _ := db.Query(`SELECT * FROM pages WHERE test = ?`, testID)
 
+	pages := []Page{}
 	for rows.Next() {
-		rows.Scan(&id, &name, &markNum, &markDenom, $userID)
-		page = Page{
-			id, name, markNum, markDenom, userID
-		}
-		pages = append(pages, page)
+		var id int
+		var userID int
+		var name string
+		var markNum int
+		var markDenom int
+
+		rows.Scan(&id, &name, &markNum, &markDenom, &userID)
+		pages = append(pages, Page{id, len(pages) + 1, testID, userID})
 	}
 
 	return pages
 }
 
-func viewTests(userID int8) []Test {
-	database, _ := sql.Open("sqlite3", "./robomark.db")
-	rows, _ := database.Query("SELECT id, name, markNum, markDenom, userID FROM tests
-	WHERE userID = " + string(userID))
-	var id string
-	var name string
-	var markNum int8
-	var markDenom int8
-	var userID string
-
-	tests := []Test {}
-	var test Test
-
-	for rows.Next() {
-		rows.Scan(&id, &name, &markNum, &markDenom, $userID)
-		test = Test{
-			id, name, markNum, markDenom, userID
-		}
-		tests = append(tests, test)
+// ViewTests .
+func ViewTests(userID int) []Test {
+	db, err := sql.Open("mysql", "robomark:Gw3CVo~1Z4d~@tcp(den1.mysql6.gear.host)/robomark")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	err = db.Ping()
+	if err != nil {
+		panic(err)
 	}
 
+	rows, _ := db.Query(`SELECT * FROM tests WHERE user = ?`, userID)
+	tests := []Test{}
+
+	for rows.Next() {
+		var IDStr string
+		var name string
+		var markNum int
+		var markDenom int
+		rows.Scan(&IDStr, &name, &markNum, &markDenom, &userID)
+
+		id, err := strconv.Atoi(IDStr)
+		if err != nil {
+			panic(err)
+		}
+
+		tests = append(tests, Test{id, name, markNum, markDenom, userID})
+	}
+
+	fmt.Println(tests)
+
 	return tests
-}
-
-func initDb() {
-	database, _ := sql.Open("sqlite3", "./robomark.db")
-
-	// Create keyword db
-	statement, _ := database.Prepare(`CREATE TABLE IF NOT EXISTS users (
-		id INTEGER PRIMARY KEY, 
-		name TEXT, 
-		isTeacher INTEGER)`)
-	statement.Exec()
-
-	// Create users db
-	statement, _ = database.Prepare(`CREATE TABLE IF NOT EXISTS tests (
-		id INTEGER PRIMARY KEY,
-		name TEXT, 
-		markNum INTEGER,
-		markDenom INTEGER,
-	
-		userID INTEGER)`) // ID of the teacher
-	statement.Exec()
-
-	// Create questions db
-	statement, _ = database.Prepare(`CREATE TABLE IF NOT EXISTS questions (
-		id INTEGER PRIMARY KEY,
-		expectedAnswers TEXT, 
-		markNum INTEGER,
-		markDenom INTEGER,
-		
-		pageID INTEGER,
-		testID INTEGER,
-		userID INTEGER 
-	)`)
-	statement.Exec()
-
-	// Create pages db
-	statement, _ = database.Prepare(`CREATE TABLE IF NOT EXISTS pages (
-		id INTEGER PRIMARY KEY,
-		number INTEGER, 
-
-		testID INTEGER,
-		userID INTEGER )`) // ID of the teacher
-	statement.Exec()
-
-	// rows, _ := database.Query("SELECT id, firstname, lastname FROM people")
-	// var id int
-	// var firstname string
-	// var lastname string
-	// for rows.Next() {
-	// 	rows.Scan(&id, &firstname, &lastname)
-	// 	fmt.Println(strconv.Itoa(id) + ": " + firstname + " " + lastname)
-	// }
 }

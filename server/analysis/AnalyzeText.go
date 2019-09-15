@@ -27,7 +27,6 @@ type TextInput struct {
 
 // AnalyzeText .
 func AnalyzeText(extension string, input TextInput) {
-
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -57,7 +56,6 @@ func AnalyzeText(extension string, input TextInput) {
 	}
 
 	r := strings.NewReader("{\"documents\": " + string(documents) + "}")
-
 	client := &http.Client{
 		Timeout: time.Second * 2,
 	}

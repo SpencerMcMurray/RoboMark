@@ -2,12 +2,12 @@ package data
 
 // Question defines a test paper page structure.
 type Question struct {
-	ID              string `json:"id"`
+	ID              int    `json:"id"`
 	ExpectedAnswers string `json:"expectedAnswers"`
-	MarkNum         int8   `json:"markNum"`
-	MarkDenom       int8   `json:"markDenom"`
+	MarkNum         int    `json:"markNum"`
+	MarkDenom       int    `json:"markDenom"`
 
-	PageID string `json:"pageID"`
-	TestID string `json:"testID"`
-	UserID string `json:"userID"`
+	PageID int `json:"pageID"`
+	TestID int `json:"testID"`
+	UserID int `json:"userID"`
 }
