@@ -3,7 +3,6 @@
   height: 70vh;
   overflow: auto;
   width: 100%;
-  min-width: 100px;
 }
 
 .title-font {
@@ -24,4 +23,7 @@
 .hover-grow:hover {
   transform: scale(1.1, 1.1);
   opacity: 0.5;
+}
+a {
+  color: black;
 }
