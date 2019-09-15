@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "cd api && python api.py"
+    "server": "cd api && python api.py",
+    "client": "next",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     "animate.css": "^3.7.2",
     "bootstrap": "^4.3.1",
     "next": "^9.0.5",
+    "concurrently": "^4.1.2",
     "react": "^16.9.0",
     "react-animated-css": "^1.2.1",
     "react-bootstrap": "^1.0.0-beta.12",

@@ -4,6 +4,8 @@ import { Animated } from "react-animated-css";
 import { Button, Card } from "react-bootstrap";
 import Link from "next/link";
 
+const userId = 1;
+
 const Index = props => {
   return (
     <Layout>
@@ -51,19 +53,22 @@ const Index = props => {
                 marking,uploading and distributing tests.
                 <br></br>RoboMark is built using React, Azure, Python and Go.
               </Card.Text>
-              <Link href="/tests">
-              <Button variant="primary">Tests</Button>
+              <Link href={`/tests?user=${userId}`}>
+                <Button variant="primary">Tests</Button>
               </Link>
             </div>
           </Card.Body>
           <Card.Footer className="text-muted">
-          <a target="_blank" href="https://github.com/SpencerMcMurray/RoboMark">
-            <i
-              className="fab fa-github"
-              style={{
-                fontSize: "40px"
-              }}
-            ></i>
+            <a
+              target="_blank"
+              href="https://github.com/SpencerMcMurray/RoboMark"
+            >
+              <i
+                className="fab fa-github"
+                style={{
+                  fontSize: "40px"
+                }}
+              ></i>
             </a>
           </Card.Footer>
         </Card>
